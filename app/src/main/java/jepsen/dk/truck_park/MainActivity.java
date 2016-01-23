@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn.setOnClickListener(this);
     }
 //test commit
+    //Andet test commit
+
     @Override
     public void onClick(View v) {
         if(v==btn){
