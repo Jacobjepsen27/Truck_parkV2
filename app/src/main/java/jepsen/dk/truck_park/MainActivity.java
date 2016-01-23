@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn = (Button) findViewById(R.id.gmap);
         btn.setOnClickListener(this);
     }
-
+//test commit
     @Override
     public void onClick(View v) {
         if(v==btn){
