@@ -10,7 +10,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Se Kort"
+        android:text="Find Parkeringsplads"
         android:id="@+id/gmap"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
