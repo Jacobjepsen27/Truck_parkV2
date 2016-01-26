@@ -19,6 +19,8 @@ public class SingleTon extends Application{
     public static ArrayList<Spot> spotList = new ArrayList<Spot>();
     public static ArrayList<Double> latList = new ArrayList<Double>();
     public static ArrayList<Double> lngList = new ArrayList<Double>();
+    public static boolean powerSaving = false;
+    public static MyLocation myLocation;
 
     public static SingleTon getInstance() {
         return ourInstance;

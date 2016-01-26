@@ -98,7 +98,7 @@
                     android:src="@drawable/food_t"
                     android:layout_weight="1"
                     android:elevation="2dp"
-                    android:background="@drawable/spot_icon"
+                    android:background="@color/colorGreyLight"
                     android:layout_marginRight="8dp"
                     />
 
@@ -110,7 +110,7 @@
                     android:src="@drawable/fuel_t"
                     android:layout_weight="1"
                     android:elevation="2dp"
-                    android:background="@drawable/spot_icon"
+                    android:background="@color/colorGreyLight"
                     android:layout_marginRight="8dp"
                     />
 
@@ -121,7 +121,7 @@
                     android:src="@drawable/wc_t"
                     android:layout_weight="1"
                     android:elevation="2dp"
-                    android:background="@drawable/spot_icon"
+                    android:background="@color/colorGreyLight"
                     android:layout_marginRight="8dp"
 
                     />
@@ -149,7 +149,7 @@
                     android:src="@drawable/roadtrain_txt_noback_check"
                     android:layout_below="@+id/linearLayout2"
                     android:elevation="2dp"
-                    android:background="@drawable/spot_icon"
+                    android:background="@color/colorGreyLight"
                     android:padding="4dp"
                     android:scaleType="fitXY"
                     android:adjustViewBounds="true"
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Searching route..."
+                    android:text=""
                     android:id="@+id/distance_textView"
                     android:layout_weight="5"
                     android:fontFamily="sans-serif-medium"
@@ -195,7 +195,7 @@
                 android:padding="16dp"
                 android:height="24dp"
                 android:elevation="2dp"
-                android:background="@drawable/knap_blaa_bg"
+                android:background="@color/colorGreyLight"
                 />
         </RelativeLayout>
     </ScrollView>
