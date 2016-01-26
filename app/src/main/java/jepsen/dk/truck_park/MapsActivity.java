@@ -14,6 +14,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import jepsen.dk.truck_park.functionality.SingleTon;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap gMap;
@@ -50,9 +52,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             System.out.println("NOT GRANTED");
             finish();
         }
+
+        //Tilføjer Markers til kort:
+        for(int i=0; i< SingleTon.spotList.size(); i++){
+            LatLng mark = new LatLng(Double.parseDouble(SingleTon.spotList.get(i).getLat()),Double.parseDouble(SingleTon.spotList.get(i).getLng()));
+            gMap.addMarker(new MarkerOptions().position(mark).title(SingleTon.spotList.get(i).getDesc()));
+        }
+
+
+
+
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 }
