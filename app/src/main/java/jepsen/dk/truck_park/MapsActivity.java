@@ -1,24 +1,28 @@
 package jepsen.dk.truck_park;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.Window;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import jepsen.dk.truck_park.functionality.SingleTon;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap gMap;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Tilføjer Markers til kort:
         for(int i=0; i< SingleTon.spotList.size(); i++){
             LatLng mark = new LatLng(Double.parseDouble(SingleTon.spotList.get(i).getLat()),Double.parseDouble(SingleTon.spotList.get(i).getLng()));
-            gMap.addMarker(new MarkerOptions().position(mark).title(SingleTon.spotList.get(i).getDesc()));
+            gMap.addMarker(new MarkerOptions().position(mark));
+            gMap.setOnMarkerClickListener(this);
         }
 
 
@@ -67,5 +72,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(dialog==null){
+            dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
+        dialog.setContentView(R.layout.dialog_spot);
+
+        return false;
     }
 }
