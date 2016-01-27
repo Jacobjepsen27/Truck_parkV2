@@ -30,6 +30,7 @@ public class SingleTon extends Application{
        super.onCreate();
        Parse.initialize(this);
        loadSpots();
+       myLocation.startLocationService(this);
    }
 
     private void loadSpots(){

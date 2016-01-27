@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Spot implements Serializable{
 
     private String desc, lat, lng;
-    private Boolean shower, food, gas, roadTrain;
+    private Boolean shower=false, food=false, gas=false, roadTrain=false;
 
     public Spot(String desc, String lat, String lng, boolean shower, boolean food, boolean gas, boolean roadTrain){
         this.desc=desc;
@@ -23,5 +23,9 @@ public class Spot implements Serializable{
     public String getDesc(){ return desc;}
     public String getLat(){ return lat;}
     public String getLng(){ return lng;}
+    public boolean getShower() { return shower;}
+    public boolean getFood() { return food;}
+    public boolean getGas() { return gas;}
+    public boolean getRoadTrain() { return roadTrain;}
 
 }

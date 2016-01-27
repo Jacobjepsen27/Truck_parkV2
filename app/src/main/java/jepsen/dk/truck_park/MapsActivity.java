@@ -3,11 +3,13 @@ package jepsen.dk.truck_park;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,13 +19,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import jepsen.dk.truck_park.functionality.MyLocation;
 import jepsen.dk.truck_park.functionality.SingleTon;
+import jepsen.dk.truck_park.functionality.Spot;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap gMap;
     private Dialog dialog;
+    private Button drawRoute;
+    private ImageView closePopUp;
+    private Spot spot; //Spottet der klikkes på
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +64,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //Tilføjer Markers til kort:
+        int id = 0;
         for(int i=0; i< SingleTon.spotList.size(); i++){
             LatLng mark = new LatLng(Double.parseDouble(SingleTon.spotList.get(i).getLat()),Double.parseDouble(SingleTon.spotList.get(i).getLng()));
-            gMap.addMarker(new MarkerOptions().position(mark));
+            gMap.addMarker(new MarkerOptions().position(mark).snippet(Integer.toString(id)));
             gMap.setOnMarkerClickListener(this);
+            id++;
         }
 
 
@@ -79,6 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        int spotNumber = Integer.parseInt(marker.getSnippet());
+        spot = SingleTon.spotList.get(spotNumber);
         gMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
         if(dialog==null){
             dialog = new Dialog(this);
@@ -86,6 +95,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         dialog.setContentView(R.layout.dialog_spot);
+
+        drawRoute = (Button) dialog.findViewById(R.id.findRoute_button);
+        closePopUp = (ImageView) dialog.findViewById(R.id.close_imageView);
+        closePopUp.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) {dialog.hide();}});
+
+        ImageView shower = (ImageView) dialog.findViewById(R.id.wc_imageView);
+        ImageView food = (ImageView) dialog.findViewById(R.id.food_imageView);
+        ImageView gas = (ImageView) dialog.findViewById(R.id.fuel_imageView);
+        ImageView roadTrain = (ImageView) dialog.findViewById(R.id.roadTrain_img);
+
+        //Kan bruges på et andet tidspunkt
+//        if (spot.getShower()){
+//            shower.setImageResource(R.drawable.wc_t_check);
+//        } else {
+//            shower.setImageResource(R.drawable.wc_t);
+//        }
+//        if (spot.getFood()){
+//            food.setImageResource(R.drawable.food_t_check);
+//        } else {
+//            food.setImageResource(R.drawable.food_t);
+//        }
+//        if(spot.getGas()){
+//            gas.setImageResource(R.drawable.fuel_t_check);
+//        } else {
+//            gas.setImageResource(R.drawable.fuel_t);
+//        }
+//        if(spot.getRoadTrain()){
+//            roadTrain.setImageResource(R.drawable.roadtrain_txt_noback_check);
+//        } else {
+//            roadTrain.setImageResource(R.drawable.roadtrain_txt_noback);
+//        }
+        shower.setVisibility(View.INVISIBLE);
+        food.setVisibility(View.INVISIBLE);
+        gas.setVisibility(View.INVISIBLE);
+        roadTrain.setVisibility(View.INVISIBLE);
+
         dialog.show();
 
         return false;
