@@ -2,7 +2,9 @@ package jepsen.dk.truck_park;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -26,7 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap gMap;
     private Dialog dialog;
-    private Button drawRoute;
+    private Button findRoute;
     private ImageView closePopUp;
     private Spot spot; //Spottet der klikkes på
 
@@ -58,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 == PackageManager.PERMISSION_GRANTED) {
             System.out.println("GRANTED");
             gMap.setMyLocationEnabled(true);
+
         } else {
             System.out.println("NOT GRANTED");
             finish();
@@ -73,9 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-
-
-
+        LatLng cPos = new LatLng(SingleTon.myLocation.getLocation().getLatitude(), SingleTon.myLocation.getLocation().getLongitude());
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cPos, 12));
 
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
@@ -96,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         dialog.setContentView(R.layout.dialog_spot);
 
-        drawRoute = (Button) dialog.findViewById(R.id.findRoute_button);
+        findRoute = (Button) dialog.findViewById(R.id.findRoute_button);
         closePopUp = (ImageView) dialog.findViewById(R.id.close_imageView);
         closePopUp.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View v) {dialog.hide();}});
 
@@ -132,6 +134,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         roadTrain.setVisibility(View.INVISIBLE);
 
         dialog.show();
+
+        findRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?&daddr="
+                                + spot.getLat() + ","
+                                + spot.getLng()));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
 
         return false;
     }
